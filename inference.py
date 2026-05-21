@@ -10,7 +10,7 @@ Can be imported by app.py or called directly:
 
 import os
 from dotenv import load_dotenv
-from langdetect import detect as detect_lang
+from langdetect import detect as detect_lang, detect_langs
 from langchain_openai import ChatOpenAI
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
@@ -192,7 +192,12 @@ def inference(query: str, history: list = None) -> tuple:
     """
 
     # 1. Detect language using langdetect (statistical, no LLM call)
+    # When Spanish and Portuguese have similar scores, prefer Portuguese
+    # (they are easily confused by langdetect on short texts).
+    candidates = {c.lang: c.prob for c in detect_langs(query)}
     lang_code = detect_lang(query)
+    if lang_code == "es" and candidates.get("pt", 0) >= candidates.get("es", 0) * 0.6:
+        lang_code = "pt"
     is_english = lang_code == "en"
     detected_language = LANGUAGE_NAMES.get(lang_code, lang_code.capitalize())
 
