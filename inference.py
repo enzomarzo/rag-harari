@@ -17,6 +17,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.callbacks import get_openai_callback
 from langchain_community.document_compressors import FlashrankRerank
+from langchain_groq import ChatGroq
 
 # Maps ISO 639-1 codes (from langdetect) to full language names (for the translation prompt)
 LANGUAGE_NAMES = {
@@ -40,6 +41,7 @@ from config import (
     CHROMA_PERSIST_DIR,
     EMBEDDING_MODEL,
     LLM_MODEL,
+    GROQ_LLM_MODEL,
     RETRIEVAL_K,
     RERANK_TOP_N,
     RELEVANCE_THRESHOLD,
@@ -56,7 +58,14 @@ load_dotenv()
 # ---------------------------------------------------------------------------
 embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
 
-llm = ChatOpenAI(model=LLM_MODEL)
+# LLM: use Groq (free) if GROQ_API_KEY is set, otherwise fallback to OpenAI
+USE_GROQ = bool(os.getenv("GROQ_API_KEY"))
+if USE_GROQ:
+    llm = ChatGroq(model=GROQ_LLM_MODEL)
+    print(f"[LLM] Using Groq ({GROQ_LLM_MODEL})")
+else:
+    llm = ChatOpenAI(model=LLM_MODEL)
+    print(f"[LLM] Using OpenAI ({LLM_MODEL})")
 
 vectorstore = Chroma(
     embedding_function=embeddings,
@@ -120,9 +129,10 @@ PROMPT_TEMPLATE = ChatPromptTemplate.from_template(
 )
 
 # Chains (each: prompt → LLM → plain string)
+_llm_zero = ChatGroq(model=GROQ_LLM_MODEL, temperature=0) if USE_GROQ else ChatOpenAI(model=LLM_MODEL, temperature=0)
 translate_to_en_chain = TRANSLATE_TO_EN_TEMPLATE | llm | StrOutputParser()
 translate_to_lang_chain = TRANSLATE_TO_LANG_TEMPLATE | llm | StrOutputParser()
-classify_book_chain = CLASSIFY_BOOK_TEMPLATE | ChatOpenAI(model=LLM_MODEL, temperature=0) | StrOutputParser()
+classify_book_chain = CLASSIFY_BOOK_TEMPLATE | _llm_zero | StrOutputParser()
 rag_chain = PROMPT_TEMPLATE | llm | StrOutputParser()
 
 # Multi-query: LLM generates alternative phrasings for broader retrieval coverage
@@ -131,7 +141,7 @@ MULTI_QUERY_TEMPLATE = ChatPromptTemplate.from_template(
     "Output only the questions, one per line, no numbering or extra text.\n\n"
     "Question: {question}"
 )
-multi_query_chain = MULTI_QUERY_TEMPLATE | ChatOpenAI(model=LLM_MODEL, temperature=0) | StrOutputParser()
+multi_query_chain = MULTI_QUERY_TEMPLATE | _llm_zero | StrOutputParser()
 
 
 def format_chat_history(history: list, max_turns: int = 5) -> str:

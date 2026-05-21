@@ -23,9 +23,12 @@ BOOKS = [
 COLLECTION_NAME = "harari_docs"
 CHROMA_PERSIST_DIR = "./chroma_db"
 
-# OpenAI models
+# OpenAI models (used for embeddings; also used as LLM fallback if no Groq key)
 EMBEDDING_MODEL = "text-embedding-3-small"
 LLM_MODEL = "gpt-4o-mini"
+
+# Groq (free tier) — used as LLM when GROQ_API_KEY is set
+GROQ_LLM_MODEL = "llama-3.3-70b-versatile"
 
 # Chunking strategy
 CHUNK_SIZE = 1000
