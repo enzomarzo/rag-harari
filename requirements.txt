@@ -1,6 +1,7 @@
 langchain==0.3.27
 langchain-community==0.3.31
 langchain-openai==0.3.35
+langchain-huggingface==0.1.2
 langchain-chroma==0.2.6
 langchain-groq==0.3.2
 chromadb
@@ -9,3 +10,4 @@ gradio
 python-dotenv
 langdetect
 flashrank
+sentence-transformers

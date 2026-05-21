@@ -23,8 +23,10 @@ BOOKS = [
 COLLECTION_NAME = "harari_docs"
 CHROMA_PERSIST_DIR = "./chroma_db"
 
-# OpenAI models (used for embeddings; also used as LLM fallback if no Groq key)
-EMBEDDING_MODEL = "text-embedding-3-small"
+# Local embedding model (sentence-transformers, no API key needed)
+EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
+
+# OpenAI LLM — fallback when GROQ_API_KEY is not set
 LLM_MODEL = "gpt-4o-mini"
 
 # Groq (free tier) — used as LLM when GROQ_API_KEY is set

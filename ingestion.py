@@ -15,7 +15,7 @@ import re
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
 from config import (
@@ -42,7 +42,7 @@ def ingest_documents():
     print("INGESTION PIPELINE")
     print("-" * 80)
 
-    embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
+    embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 
     vectorstore = Chroma(
         embedding_function=embeddings,

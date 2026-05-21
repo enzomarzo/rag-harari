@@ -11,7 +11,8 @@ Can be imported by app.py or called directly:
 import os
 from dotenv import load_dotenv
 from langdetect import detect as detect_lang
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -56,7 +57,7 @@ load_dotenv()
 # ---------------------------------------------------------------------------
 # Shared resources (initialised once at import time)
 # ---------------------------------------------------------------------------
-embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
+embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 
 # LLM: use Groq (free) if GROQ_API_KEY is set, otherwise fallback to OpenAI
 USE_GROQ = bool(os.getenv("GROQ_API_KEY"))
