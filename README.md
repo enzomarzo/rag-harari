@@ -140,12 +140,4 @@ python app.py
 
 Open [http://localhost:7860](http://localhost:7860) in your browser and start asking questions.
 
----
 
-## Changelog
-
-| Version | Class | What changed |
-|---|---|---|
-| v1 | Week 3 — Class 8 | Initial RAG: single book (Sapiens), PDF load → chunk → embed → Chroma, similarity search, LLM answer, language detection + translation, relevance threshold |
-| v2 | Week 3 — Class 9 | Data cleaning (regex text cleanup), metadata enrichment (`book`, `book_title` per chunk), LLM-based book classifier in inference, metadata filtering in Chroma, multi-book support expanded to 3 books (Sapiens, Homo Deus, 21 Lessons), collection renamed to `harari_docs` |
-| v3 | Week 4 — Class 10 | Conversation memory (last 5 turns passed to LLM prompt), multi-query retrieval (LLM generates query variations for broader coverage), FlashRank reranking (cross-encoder rescores candidates and keeps top 3) |
