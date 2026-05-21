@@ -98,6 +98,7 @@ with demo:
                     "🇵🇹 O que é a Revolução Cognitiva?",
                     "🇵🇹 O que o Homo Deus diz sobre inteligência artificial?",
                 ],
+                cache_examples=False,
             )
 
             back_btn = gr.Button("← Back to examples", elem_id="back-link")
