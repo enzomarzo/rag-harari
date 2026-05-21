@@ -62,23 +62,22 @@ def chat_fn(message: str, history: list) -> str:
     return answer + footnote
 
 
-demo = gr.Blocks(
-    title="Yuval Noah Harari — RAG Assistant",
-    css="""
-    #back-link {
-        border: none !important;
-        background: none !important;
-        box-shadow: none !important;
-        color: #888 !important;
-        font-size: 0.8em !important;
-        padding: 2px 0 !important;
-        min-width: unset !important;
-        width: auto !important;
-        display: inline-block;
-    }
-    #back-link:hover { color: #555 !important; }
-    """,
-)
+CSS = """
+#back-link {
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    color: #888 !important;
+    font-size: 0.8em !important;
+    padding: 2px 0 !important;
+    min-width: unset !important;
+    width: auto !important;
+    display: inline-block;
+}
+#back-link:hover { color: #555 !important; }
+"""
+
+demo = gr.Blocks(title="Yuval Noah Harari — RAG Assistant")
 
 with demo:
     with gr.Tabs():
@@ -153,4 +152,4 @@ with demo:
                 lang_toggle.change(fn=_switch_lang, inputs=lang_toggle, outputs=index_mds)
 
 if __name__ == "__main__":
-    demo.launch(debug=True)
+    demo.launch(debug=True, css=CSS)
