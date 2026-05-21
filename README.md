@@ -1,3 +1,14 @@
+---
+title: Yuval Noah Harari RAG Assistant
+emoji: 📚
+colorFrom: indigo
+colorTo: purple
+sdk: gradio
+sdk_version: "6.13.0"
+app_file: app.py
+pinned: false
+---
+
 # Yuval Noah Harari: RAG Assistant
 
 > **Course project** built during the *AI for Developers* course by [Code4All](https://codeforall.com),
