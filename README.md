@@ -14,6 +14,8 @@ pinned: false
 > **Course project** built during the *AI for Developers* course by [Code4All](https://codeforall.com),
 > focused on building **RAG (Retrieval-Augmented Generation)** systems from scratch.
 
+**[▶ Try it live](https://huggingface.co/spaces/enzomarzo/rag-harari)** — access the RAG assistant without any setup or local build.
+
 ---
 
 ## Summary
